@@ -1,0 +1,55 @@
+{
+   "source":{
+      "file":{
+         "path":"/home/mimmo/myCode/DONTBACKUP/drugs.csv"
+      }
+   },
+   "extractor":{
+      "row":{
+
+      }
+   },
+   "transformers":[
+      { "csv":  { "nullValue": "Null", "columns": [ "drugId:integer", "drugName:string", "companyId:integer", "relatedDrugId:integer" ] } },
+      {
+         "vertex":{
+            "class":"Drugs"
+         }
+      },
+      {
+         "edge":{
+            "class":"RelatedDrugs",
+            "joinFieldName":"relatedDrugId",
+            "lookup":"Drugs.drugId"
+         }
+      },
+      {
+         "edge":{
+            "class":"DrugCompany",
+            "joinFieldName":"companyid",
+            "lookup":"Company.companyId"
+         }
+      }
+   ],
+   "loader":{
+      "orientdb":{
+         #"dbURL":"remote:127.0.0.1/cos_drugs",
+         "dbURL": "plocal:/opt/orientdb/databases/cos_drugs",
+         "dbUser":"admin",
+         "dbPassword":"admin",
+         #"dbAutoDropIfExists": true,
+         #"dbAutoCreate": true,
+         "standardElementConstraints":false,
+         "tx":false,
+         "wal":false,
+         "batchCommit":10000,
+         "dbType":"graph",
+         "classes":[
+            {
+               "name":"Drugs",
+               "extends":"V"
+            }
+         ]
+      }
+   }
+}

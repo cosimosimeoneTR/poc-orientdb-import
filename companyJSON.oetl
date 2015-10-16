@@ -1,0 +1,22 @@
+{"source": { "file": { "path": "/home/mimmo/myCode/DONTBACKUP/company.json" }  }, "extractor" : { "json": {} }
+,"transformers" : [
+    { "vertex": { "class": "Company","fields":["companyId:integer","companyName:string"]} }
+  ],  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/cos_drugs",
+      #"dbURL": "remote:127.0.0.1/cos_drugs",
+      #"dbURL": "memory:cos_drugs",
+      "dbUser": "admin",
+      "dbPassword": "admin",
+      #"dbAutoDropIfExists": true,
+      #"dbAutoCreate": true,
+      "standardElementConstraints": false,
+      "tx": false,
+      "wal": false,
+      "batchCommit": 1000,
+      "dbType": "graph",
+      "classes": [{"name": "Company", "extends":"V"}],
+      "indexes": [{"class":"Company", "fields":["companyId:integer"], "type":"UNIQUE_HASH_INDEX" }]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+   "source":{
+      "file":{
+         "path":"/home/mimmo/myCode/DONTBACKUP/drugs.json"
+      }
+   },
+   "extractor":{
+      "json":{
+
+      }
+   },
+   "transformers":[
+      {
+         "vertex":{
+            "class":"Drugs"
+         }
+      },
+      {
+         "edge":{
+            "class":"RelatedDrugs",
+            "joinFieldName":"relatedDrugId",
+            "lookup":"Drugs.drugId"
+         }
+      },
+      {
+         "edge":{
+            "class":"DrugCompany",
+            "joinFieldName":"companyid",
+            "lookup":"Company.companyId"
+         }
+      }
+   ],
+   "loader":{
+      "orientdb":{
+         "dbURL": "plocal:/opt/orientdb/databases/cos_drugs",
+         #"dbURL": "remote:127.0.0.1/cos_drugs",
+         #"dbURL": "memory:cos_drugs",
+         "dbUser":"admin",
+         "dbPassword":"admin",
+         "dbType": "graph",
+         "useLightweightEdges": false,
+         "standardElementConstraints":false,
+         "tx":false,
+         "wal":false,
+         "batchCommit":10000,
+         "dbType":"graph",
+         "classes":[
+            {
+               "name":"Drugs",
+               "extends":"V"
+            }
+         ]
+      }
+   }
+}
